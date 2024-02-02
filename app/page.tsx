@@ -139,15 +139,45 @@ export default function Home() {
   }
 
   return (
-    <div>
+
+    <div className='flex items-center justify-center h-full'>
       <input ref={hiddenFileInput} onChange={handleChange} type="file" name="" id="" style={{ display: 'none' }} />
-      <button onClick={handleClick}>添加文件</button>
-      peedState:{peerState}
-      <br />
-      waitingPrepareSend:{waitingPrepareSend ? 'true' : 'false'}
-      {selectedFiles.length}
-      {selectedFiles.map(file => <li key={file.uid}>{file.name}</li>)}
-      {selectedFiles.length > 0 ? <button onClick={handleSelectDone}>选好了</button> : null}
+      <div className='flex flex-col w-[45%] bg-[#fdfdfd] h-[500px]'>
+        <div className='text-center mt-4'>发送文件</div>
+        <div className="file-box flex-1">
+          <div className="file-list">
+            {selectedFiles.map((file) => (
+              <div
+                key={file.uid}
+                className="file-item flex justify-between px-20"
+              >
+                <div className="file-name">{file.name}</div>
+                <div className="file-remove">x</div>
+              </div>))
+            }
+          </div>
+        </div>
+        {recvCode ? <div className="h-[50px] pb-20 text-center">
+          <div>打开 http://localhost:3000/recv</div>
+          <div>
+            输入取件码：{recvCode}
+          </div>
+        </div> : null}
+        <div className="flex justify-between px-20 pb-4">
+          <button disabled={!waitingPrepareSend || peerState !== 'initial'} onClick={handleClick} className="p-2 bg-[#71cecf] rounded-md text-white">选择文件</button>
+          <button onClick={handleSelectDone} className="p-2 bg-[#71cecf] rounded-md text-white">开始发送</button>
+        </div>
+      </div>
     </div>
+    // <div>
+    //   <input ref={hiddenFileInput} onChange={handleChange} type="file" name="" id="" style={{ display: 'none' }} />
+    //   <button onClick={handleClick}>添加文件</button>
+    //   peedState:{peerState}
+    //   <br />
+    //   waitingPrepareSend:{waitingPrepareSend ? 'true' : 'false'}
+    //   {selectedFiles.length}
+    //   {selectedFiles.map(file => <li key={file.uid}>{file.name}</li>)}
+    //   {selectedFiles.length > 0 ? <button onClick={handleSelectDone}>选好了</button> : null}
+    // </div>
   );
 }
